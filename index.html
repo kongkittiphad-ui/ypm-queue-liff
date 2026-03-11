@@ -1,260 +1,894 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>จองคิวปรึกษา — โยธาธิการและผังเมือง</title>
-  <script src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Sarabun', sans-serif; background: #f0f4f8; min-height: 100vh; }
-    .header { background: linear-gradient(135deg, #1B5E99, #2E86C1); color: white; padding: 20px 16px; text-align: center; }
-    .header h1 { font-size: 18px; font-weight: bold; margin-bottom: 4px; }
-    .header p  { font-size: 13px; opacity: 0.85; }
-    .card { background: white; margin: 16px; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .form-group { margin-bottom: 18px; }
-    label { display: block; font-size: 14px; font-weight: bold; color: #1B5E99; margin-bottom: 6px; }
-    label span.req { color: #e74c3c; margin-left: 4px; }
-    input, select, textarea { width: 100%; padding: 10px 14px; border: 1.5px solid #dce3ea; border-radius: 8px; font-size: 15px; font-family: 'Sarabun', sans-serif; color: #333; background: #fafafa; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: #2E86C1; background: white; }
-    .slot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
-    .slot-btn { padding: 10px; border: 1.5px solid #dce3ea; border-radius: 8px; background: #fafafa; font-size: 14px; font-family: 'Sarabun', sans-serif; cursor: pointer; text-align: center; }
-    .slot-btn.selected { border-color: #2E86C1; background: #EBF5FB; color: #1B5E99; font-weight: bold; }
-    .btn-submit { width: 100%; padding: 14px; background: linear-gradient(135deg, #1B5E99, #2E86C1); color: white; border: none; border-radius: 10px; font-size: 17px; font-family: 'Sarabun', sans-serif; font-weight: bold; cursor: pointer; margin-top: 8px; }
-    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-    .loading { display: none; text-align: center; padding: 40px 20px; color: #666; }
-    .spinner { width: 40px; height: 40px; border: 4px solid #dce3ea; border-top-color: #2E86C1; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .success { display: none; text-align: center; padding: 40px 20px; }
-    .success .icon { font-size: 64px; margin-bottom: 16px; }
-    .success h2 { color: #1B5E99; margin-bottom: 8px; }
-    .success p { color: #666; font-size: 14px; line-height: 1.6; }
-    .booking-id { background: #EBF5FB; border-radius: 8px; padding: 10px 16px; margin: 12px 0; font-weight: bold; color: #1B5E99; font-size: 16px; }
-    .error-msg { display: none; background: #fdecea; color: #c0392b; border-radius: 8px; padding: 10px 14px; font-size: 14px; margin-bottom: 12px; }
-    .hint { color: #999; font-size: 13px; margin-top: 4px; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>DPT e-Booking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
+<style>
+:root {
+  --blue-deep:   #0A1F5C;
+  --blue-mid:    #1141A8;
+  --blue-bright: #1565C0;
+  --blue-light:  #1E88E5;
+  --blue-pale:   #E8F0FE;
+  --blue-pale2:  #DBEAFE;
+  --gold:        #FFD600;
+  --gold-soft:   #FFF8DC;
+  --surface:     #FFFFFF;
+  --bg:          #F0F4FF;
+  --ink:         #0D1B3E;
+  --ink-2:       #4A5878;
+  --ink-3:       #9DAABF;
+  --border:      #D4DEFA;
+  --warn:        #C0392B;
+  --warn-l:      #FDECEA;
+  --success:     #1A7A4A;
+  --success-l:   #E6F5EE;
+  --radius:      14px;
+  --shadow:      0 2px 8px rgba(17,65,168,.1), 0 8px 24px rgba(17,65,168,.07);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Noto Sans Thai', sans-serif;
+  background: linear-gradient(160deg, var(--blue-deep) 0%, var(--blue-mid) 35%, var(--blue-bright) 65%, var(--blue-light) 100%);
+  min-height: 100vh;
+  color: var(--ink);
+}
+
+/* ─── Cover ─── */
+.cover {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, var(--blue-deep), var(--blue-mid));
+  overflow: hidden;
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  color: rgba(255,255,255,.3);
+  font-size: 13px;
+}
+.cover-placeholder .ph-icon { font-size: 36px; opacity: .4; }
+.cover-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(10,31,92,.85), transparent);
+}
+.cover-upload-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-family: 'Noto Sans Thai', sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#coverInput { display: none; }
+
+/* ─── Header ─── */
+.header {
+  padding: 16px 20px 20px;
+  background: linear-gradient(180deg, rgba(10,31,92,.9) 0%, rgba(17,65,168,.8) 100%);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.header-org {
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: .8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.header-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,.75);
+  margin-bottom: 10px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+.header-brand {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+.header-logo {
+  width: 44px; height: 44px;
+  background: var(--gold);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.header-text {}
+.header-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -.3px;
+  line-height: 1.1;
+}
+.header-title span { color: var(--gold); }
+.header-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,.6);
+  margin-top: 2px;
+}
+
+/* ─── Step Dots ─── */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 20px 0;
+}
+.step-dot {
+  height: 4px;
+  flex: 1;
+  border-radius: 2px;
+  background: rgba(255,255,255,.2);
+  transition: all .35s ease;
+}
+.step-dot.done   { background: rgba(255,255,255,.5); }
+.step-dot.active { background: var(--gold); }
+
+/* ─── Wrap ─── */
+.wrap { padding: 14px 14px 40px; }
+
+/* ─── Card ─── */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px 18px;
+  display: none;
+  animation: fadeUp .3s ease;
+}
+.card.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-step { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: var(--blue-light); text-transform: uppercase; margin-bottom: 3px; }
+.card-title { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 20px; }
+
+/* ─── Fields ─── */
+.field { margin-bottom: 18px; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+  letter-spacing: .3px;
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.req { color: var(--warn); font-size: 14px; line-height: 1; }
+
+input[type=text],
+input[type=tel],
+input[type=date],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: 'Noto Sans Thai', sans-serif;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--blue-bright);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--blue-pale);
+}
+input::placeholder, textarea::placeholder { color: var(--ink-3); }
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A5878' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+textarea { resize: none; line-height: 1.6; }
+
+/* ─── Service Cards ─── */
+.svc-grid { display: grid; gap: 10px; }
+.svc-card {
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all .2s;
+  background: var(--bg);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.svc-card:hover { border-color: var(--blue-bright); background: var(--blue-pale); }
+.svc-card.selected {
+  border-color: var(--blue-bright);
+  background: var(--blue-pale);
+  box-shadow: 0 0 0 3px var(--blue-pale2);
+}
+.svc-icon { font-size: 26px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.svc-info {}
+.svc-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.svc-desc { font-size: 11px; color: var(--ink-3); line-height: 1.5; }
+.svc-card.selected .svc-name { color: var(--blue-bright); }
+.svc-check {
+  margin-left: auto;
+  width: 20px; height: 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  transition: all .2s;
+}
+.svc-card.selected .svc-check {
+  background: var(--blue-bright);
+  border-color: var(--blue-bright);
+  color: #fff;
+}
+
+/* ─── Divider ─── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 20px 0;
+}
+
+/* ─── Slots ─── */
+.slot-hint, .slot-loading {
+  text-align: center;
+  padding: 18px;
+  font-size: 13px;
+  color: var(--ink-3);
+  background: var(--bg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.mini-spin {
+  width: 16px; height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--blue-bright);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.slot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.slot-btn {
+  padding: 11px 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: center;
+  transition: all .2s;
+}
+.slot-btn:hover { border-color: var(--blue-bright); background: var(--blue-pale); }
+.slot-btn.selected { border-color: var(--blue-bright); background: var(--blue-bright); color: #fff; font-weight: 600; }
+.slot-empty { grid-column: 1/-1; text-align: center; padding: 16px; font-size: 13px; color: var(--warn); background: var(--warn-l); border-radius: 10px; }
+
+/* ─── PDPA Box ─── */
+.pdpa-box {
+  background: linear-gradient(135deg, #EEF2FF, #E8F0FE);
+  border: 1px solid #C7D7F8;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+.pdpa-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-deep);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pdpa-text {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.pdpa-text strong { color: var(--blue-deep); }
+.pdpa-check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.pdpa-check-row input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  accent-color: var(--blue-bright);
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+.pdpa-check-row label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue-deep);
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+/* ─── Summary ─── */
+.summary-box {
+  background: var(--blue-pale);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(21,101,192,.1);
+  gap: 10px;
+}
+.summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+.sum-key { font-size: 12px; color: var(--ink-2); flex-shrink: 0; }
+.sum-val { font-size: 14px; font-weight: 600; color: var(--blue-bright); text-align: right; }
+
+/* ─── Error Bar ─── */
+.err-bar {
+  display: none;
+  background: var(--warn-l);
+  color: var(--warn);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  align-items: center;
+  gap: 8px;
+}
+.err-bar.show { display: flex; }
+
+/* ─── Buttons ─── */
+.btn-row { display: flex; gap: 10px; margin: 12px 14px 0; }
+.btn {
+  flex: 1;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Noto Sans Thai', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-back {
+  background: rgba(255,255,255,.18);
+  color: #fff;
+  flex: 0 0 52px;
+  padding: 15px 0;
+  font-size: 18px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,.25);
+}
+.btn-back:active { background: rgba(255,255,255,.28); }
+.btn-primary {
+  background: var(--gold);
+  color: var(--blue-deep);
+  box-shadow: 0 4px 14px rgba(255,214,0,.4);
+}
+.btn-primary:active { transform: scale(.98); }
+.btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+/* ─── Loading ─── */
+#loadingSection { display: none; text-align: center; padding: 80px 20px; }
+.big-spin {
+  width: 54px; height: 54px;
+  border: 4px solid rgba(255,255,255,.2);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin: 0 auto 20px;
+}
+#loadingSection p { font-size: 15px; color: rgba(255,255,255,.7); }
+
+/* ─── Success ─── */
+#successSection { display: none; text-align: center; padding: 20px 14px 40px; animation: fadeUp .4s ease; }
+.success-ring {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  background: var(--success-l);
+  border: 3px solid #4CAF50;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px;
+  margin: 0 auto 20px;
+}
+.success-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px 20px;
+}
+.success-card h2 { font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
+.success-card p  { font-size: 14px; color: var(--ink-2); line-height: 1.7; margin-bottom: 16px; }
+.booking-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--blue-pale); color: var(--blue-bright);
+  border-radius: 24px; padding: 10px 20px;
+  font-size: 15px; font-weight: 800;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 20px;
+}
+.info-list { text-align: left; }
+.info-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--ink-2);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+}
+.info-item:last-child { border-bottom: none; }
+.info-item span:first-child { font-size: 16px; flex-shrink: 0; }
+</style>
 </head>
 <body>
 
-<div class="header">
-  <h1>🏛️ จองคิวปรึกษา</h1>
-  <p>สำนักงานโยธาธิการและผังเมืองจังหวัด</p>
+<!-- ─── Cover Image ─── -->
+<div class="cover" id="cover">
+  <div class="cover-placeholder" id="coverPlaceholder">
+    <div class="ph-icon">🖼️</div>
+    <span>รูปปกของหน่วยงาน</span>
+  </div>
+  <div class="cover-overlay"></div>
+  <button class="cover-upload-btn" onclick="document.getElementById('coverInput').click()">
+    📷 ใส่รูปปก
+  </button>
+  <input type="file" id="coverInput" accept="image/*" onchange="loadCover(this)"/>
 </div>
 
-<div id="formSection">
-  <div class="card">
-    <div id="errorMsg" class="error-msg"></div>
-
-    <div class="form-group">
-      <label>ชื่อ-นามสกุล <span class="req">*</span></label>
-      <input type="text" id="fullName" placeholder="กรอกชื่อ-นามสกุล" />
+<!-- ─── Header ─── -->
+<div class="header">
+  <div class="header-org">กรมโยธาธิการและผังเมือง</div>
+  <div class="header-sub">สำนักงานโยธาธิการและผังเมืองจังหวัดบุรีรัมย์</div>
+  <div class="header-brand">
+    <div class="header-logo">🏛️</div>
+    <div class="header-text">
+      <div class="header-title">DPT <span>e-Booking</span></div>
+      <div class="header-desc">ระบบนัดหมายออนไลน์สำหรับประชาชน</div>
     </div>
-
-    <div class="form-group">
-      <label>เบอร์โทรศัพท์ <span class="req">*</span></label>
-      <input type="tel" id="phone" placeholder="0xxxxxxxxx" maxlength="10" />
-    </div>
-
-    <div class="form-group">
-      <label>ประเภทงานที่ต้องการปรึกษา <span class="req">*</span></label>
-      <select id="serviceType" onchange="onServiceTypeChange()">
-        <option value="">-- เลือกประเภทงาน --</option>
-        <option value="งานช่าง">🔧 งานช่าง</option>
-        <option value="ผังเมือง">🗺️ ผังเมือง</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>วันที่ต้องการ <span class="req">*</span></label>
-      <input type="date" id="preferredDate" onchange="loadSlots()" />
-    </div>
-
-    <div class="form-group">
-      <label>ช่วงเวลา <span class="req">*</span></label>
-      <div id="slotContainer">
-        <p class="hint">กรุณาเลือกประเภทงานและวันที่ก่อนครับ</p>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>หมายเหตุ (ถ้ามี)</label>
-      <textarea id="notes" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติม เช่น เรื่องที่ต้องการปรึกษา"></textarea>
-    </div>
-
-    <button class="btn-submit" id="submitBtn" onclick="submitBooking()">
-      📅 ยืนยันการจอง
-    </button>
   </div>
 </div>
 
-<div id="loadingSection" class="loading card" style="margin:16px;">
-  <div class="spinner"></div>
-  <p>กำลังส่งข้อมูล กรุณารอสักครู่...</p>
+<!-- ─── Step Bar ─── -->
+<div class="step-indicator" id="stepIndicator">
+  <div class="step-dot active" id="dot1"></div>
+  <div class="step-dot" id="dot2"></div>
+  <div class="step-dot" id="dot3"></div>
 </div>
 
-<div id="successSection" class="success card" style="margin:16px;">
-  <div class="icon">✅</div>
-  <h2>จองคิวสำเร็จแล้ว!</h2>
-  <div class="booking-id" id="bookingIdDisplay"></div>
-  <p>ระบบได้รับคำขอของท่านแล้ว<br/>กรุณารอเจ้าหน้าที่ยืนยันนัดหมายผ่าน LINE ครับ/ค่ะ</p>
+<!-- ─── Main Content ─── -->
+<div class="wrap">
+
+  <!-- STEP 1 -->
+  <div class="card active" id="step1">
+    <div class="card-step">ขั้นตอน 1 / 3</div>
+    <div class="card-title">ข้อมูลผู้รับบริการ</div>
+
+    <div class="err-bar" id="err1"><span>⚠️</span><span id="err1t"></span></div>
+
+    <div class="row-2">
+      <div class="field">
+        <div class="label">ชื่อ <span class="req">*</span></div>
+        <input type="text" id="firstName" placeholder="เช่น สมชาย"/>
+      </div>
+      <div class="field">
+        <div class="label">นามสกุล <span class="req">*</span></div>
+        <input type="text" id="lastName" placeholder="เช่น ใจดี"/>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="label">เบอร์โทรศัพท์ <span class="req">*</span></div>
+      <input type="tel" id="phone" placeholder="0xxxxxxxxx" maxlength="10"/>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <div class="label">ประเภทบริการ <span class="req">*</span></div>
+      <div class="svc-grid">
+        <div class="svc-card" id="svc-งานบริการด้านช่าง" onclick="pickService('งานบริการด้านช่าง')">
+          <div class="svc-icon">🔧</div>
+          <div class="svc-info">
+            <div class="svc-name">งานบริการด้านช่าง</div>
+            <div class="svc-desc">ก่อสร้าง ควบคุมอาคาร อื่นๆ</div>
+          </div>
+          <div class="svc-check" id="chk-งานบริการด้านช่าง"></div>
+        </div>
+        <div class="svc-card" id="svc-งานบริการด้านผังเมือง" onclick="pickService('งานบริการด้านผังเมือง')">
+          <div class="svc-icon">🗺️</div>
+          <div class="svc-info">
+            <div class="svc-name">งานบริการด้านผังเมือง</div>
+            <div class="svc-desc">ตรวจสอบการใช้ประโยชน์ที่ดิน การจัดรูปที่ดิน อื่นๆ</div>
+          </div>
+          <div class="svc-check" id="chk-งานบริการด้านผังเมือง"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card" id="step2">
+    <div class="card-step">ขั้นตอน 2 / 3</div>
+    <div class="card-title">เลือกวันและเวลา</div>
+
+    <div class="err-bar" id="err2"><span>⚠️</span><span id="err2t"></span></div>
+
+    <div class="field">
+      <div class="label">วันที่ต้องการ <span class="req">*</span></div>
+      <input type="date" id="preferredDate" onchange="loadSlots()"/>
+    </div>
+
+    <div class="field">
+      <div class="label">ช่วงเวลา <span class="req">*</span></div>
+      <div id="slotContainer">
+        <div class="slot-hint">กรุณาเลือกวันที่ก่อนครับ/ค่ะ</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="label">หมายเหตุ / เรื่องที่ต้องการปรึกษา</div>
+      <textarea id="notes" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติม..."></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card" id="step3">
+    <div class="card-step">ขั้นตอน 3 / 3</div>
+    <div class="card-title">ยืนยันการนัดหมาย</div>
+
+    <div class="err-bar" id="err3"><span>⚠️</span><span id="err3t"></span></div>
+
+    <!-- Summary -->
+    <div class="summary-box" id="summaryBox"></div>
+
+    <!-- PDPA -->
+    <div class="pdpa-box">
+      <div class="pdpa-title">🔒 การให้ความยินยอมตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล</div>
+      <div class="pdpa-text">
+        สำนักงานโยธาธิการและผังเมืองจังหวัดบุรีรัมย์ จะเก็บรวบรวมข้อมูลส่วนบุคคลของท่าน
+        ได้แก่ <strong>ชื่อ-นามสกุล เบอร์โทรศัพท์ และ LINE User ID</strong>
+        เพื่อใช้ในการนัดหมายและติดต่อกลับ โดยจะไม่เปิดเผยข้อมูลต่อบุคคลภายนอก
+        และจะเก็บรักษาข้อมูลอย่างปลอดภัยตามมาตรฐานความปลอดภัยของหน่วยงาน
+      </div>
+      <label class="pdpa-check-row">
+        <input type="checkbox" id="pdpaConsent" onchange="checkPdpa()"/>
+        <span>ข้าพเจ้ายินยอมให้จัดเก็บข้อมูลส่วนบุคคลตามที่ระบุข้างต้น</span>
+      </label>
+    </div>
+
+    <p style="font-size:12px;color:var(--ink-3);text-align:center;line-height:1.6;">
+      เมื่อกดยืนยัน เจ้าหน้าที่จะติดต่อกลับผ่าน LINE ของท่าน
+    </p>
+  </div>
+
+  <!-- Loading -->
+  <div id="loadingSection">
+    <div class="big-spin"></div>
+    <p>กำลังส่งข้อมูล...</p>
+  </div>
+
+  <!-- Success -->
+  <div id="successSection">
+    <div class="success-ring">✅</div>
+    <div class="success-card">
+      <h2>จองคิวสำเร็จ!</h2>
+      <div class="booking-badge">📋 <span id="bookingIdDisplay"></span></div>
+      <p>ระบบได้รับคำขอของท่านแล้วครับ/ค่ะ<br/>กรุณารอเจ้าหน้าที่ยืนยันนัดหมาย<br/>ผ่าน LINE ของท่าน</p>
+      <div class="info-list">
+        <div class="info-item"><span>🕐</span><span>เจ้าหน้าที่จะยืนยันภายใน 1 วันทำการ</span></div>
+        <div class="info-item"><span>📱</span><span>รับแจ้งเตือนผ่าน LINE อัตโนมัติ</span></div>
+        <div class="info-item"><span>📞</span><span>สอบถามเพิ่มเติม ทักแชทหา LINE OA ของเราครับ</span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- ─── Buttons ─── -->
+<div class="btn-row" id="btnRow">
+  <button class="btn btn-back" id="btnBack" onclick="goBack()" style="display:none">←</button>
+  <button class="btn btn-primary" id="btnNext" onclick="goNext()">
+    <span id="btnLabel">ถัดไป →</span>
+  </button>
 </div>
 
 <script>
-var LIFF_ID  = '2009411953-W4NYD3v1';
-var GET_URL  = 'https://script.google.com/macros/s/AKfycbw2yDFOBb5mngDGt8nO6DaYzc8Y8yYTkxW_6vyiaRFDamylIFOUfF1BGQPF_7dkuT31Ww/exec';
-var POST_URL = 'https://hook.us2.make.com/8yk8kr6lb2bsm4xqw81g8ntffwfgq8ol';
+// =========================================================
+// CONFIG — แก้ 2 ค่านี้
+// =========================================================
+var LIFF_ID = 'วาง_LIFF_ID_ตรงนี้';
+var GET_URL  = 'วาง_Apps_Script_URL_ตรงนี้';
+// =========================================================
 
 var lineUserId   = '';
 var displayName  = '';
 var selectedSlot = '';
+var selectedSvc  = '';
+var currentStep  = 1;
 
+// ─── LIFF Init ───
 async function initLiff() {
   try {
     await liff.init({ liffId: LIFF_ID });
     if (!liff.isLoggedIn()) { liff.login(); return; }
-    var profile = await liff.getProfile();
-    lineUserId  = profile.userId;
-    displayName = profile.displayName;
-  } catch (err) {
-    console.error('LIFF init error:', err);
-  }
+    var p = await liff.getProfile();
+    lineUserId  = p.userId;
+    displayName = p.displayName;
+  } catch(e) { console.error('LIFF error:', e); }
 }
 
+// ─── Cover Image ───
+function loadCover(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var cover = document.getElementById('cover');
+    document.getElementById('coverPlaceholder').style.display = 'none';
+    var img = document.createElement('img');
+    img.src = e.target.result;
+    cover.insertBefore(img, cover.firstChild);
+  };
+  reader.readAsDataURL(file);
+}
+
+// ─── Service Select ───
+function pickService(val) {
+  selectedSvc = val;
+  document.querySelectorAll('.svc-card').forEach(function(c){ c.classList.remove('selected'); });
+  document.querySelectorAll('.svc-check').forEach(function(c){ c.textContent = ''; });
+  document.getElementById('svc-' + val).classList.add('selected');
+  document.getElementById('chk-' + val).textContent = '✓';
+}
+
+// ─── Load Slots ───
 async function loadSlots() {
-  var date        = document.getElementById('preferredDate').value;
-  var serviceType = document.getElementById('serviceType').value;
-  if (!date || !serviceType) return;
-
+  var date = document.getElementById('preferredDate').value;
+  if (!date) return;
   document.getElementById('slotContainer').innerHTML =
-    '<p class="hint">⏳ กำลังโหลดช่วงเวลาว่าง...</p>';
-
+    '<div class="slot-loading"><div class="mini-spin"></div>กำลังโหลดช่วงเวลาว่าง...</div>';
   try {
-    var url = GET_URL
-      + '?action=getSlots'
-      + '&date=' + date
-      + '&serviceType=' + encodeURIComponent(serviceType);
-
+    var url = GET_URL + '?action=getSlots&date=' + date
+            + '&serviceType=' + encodeURIComponent(selectedSvc);
     var res  = await fetch(url, { redirect: 'follow' });
-    var text = await res.text();
-    var data = JSON.parse(text);
+    var data = JSON.parse(await res.text());
     renderSlots(data.slots);
-  } catch (err) {
-    console.error('loadSlots error:', err);
+  } catch(e) {
     document.getElementById('slotContainer').innerHTML =
-      '<p style="color:#e74c3c;font-size:14px;">โหลดช่วงเวลาไม่ได้ กรุณาลองใหม่ครับ</p>';
+      '<div class="slot-grid"><div class="slot-empty">โหลดช่วงเวลาไม่ได้ กรุณาลองใหม่</div></div>';
   }
 }
 
 function renderSlots(slots) {
   selectedSlot = '';
-  if (!slots || slots.length === 0) {
+  if (!slots || !slots.length) {
     document.getElementById('slotContainer').innerHTML =
-      '<p style="color:#e74c3c;font-size:14px;">ไม่มีช่วงเวลาว่างในวันที่เลือกครับ/ค่ะ</p>';
+      '<div class="slot-grid"><div class="slot-empty">⚠️ ไม่มีช่วงเวลาว่างในวันนี้<br/>กรุณาเลือกวันอื่นครับ/ค่ะ</div></div>';
     return;
   }
-  var html = '<div class="slot-grid">';
-  for (var i = 0; i < slots.length; i++) {
-    html += '<button class="slot-btn" onclick="selectSlot(this,\'' + slots[i].label + '\')">'
-          + slots[i].label + '</button>';
-  }
-  html += '</div>';
-  document.getElementById('slotContainer').innerHTML = html;
+  var h = '<div class="slot-grid">';
+  slots.forEach(function(s){
+    h += '<button class="slot-btn" onclick="pickSlot(this,\'' + s.label + '\')">' + s.label + '</button>';
+  });
+  document.getElementById('slotContainer').innerHTML = h + '</div>';
 }
 
-function selectSlot(btn, label) {
-  var btns = document.querySelectorAll('.slot-btn');
-  for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('selected'); }
+function pickSlot(btn, label) {
+  document.querySelectorAll('.slot-btn').forEach(function(b){ b.classList.remove('selected'); });
   btn.classList.add('selected');
   selectedSlot = label;
 }
 
-function onServiceTypeChange() {
+// ─── PDPA check → enable/disable confirm button ───
+function checkPdpa() {
+  document.getElementById('btnNext').disabled = !document.getElementById('pdpaConsent').checked;
+}
+
+// ─── Navigation ───
+function goNext() {
+  if (currentStep === 1) {
+    var fn = document.getElementById('firstName').value.trim();
+    var ln = document.getElementById('lastName').value.trim();
+    var ph = document.getElementById('phone').value.trim();
+    if (!fn)               { showErr(1,'กรุณากรอกชื่อครับ/ค่ะ'); return; }
+    if (!ln)               { showErr(1,'กรุณากรอกนามสกุลครับ/ค่ะ'); return; }
+    if (!ph||ph.length<9)  { showErr(1,'กรุณากรอกเบอร์โทรให้ถูกต้องครับ/ค่ะ'); return; }
+    if (!selectedSvc)      { showErr(1,'กรุณาเลือกประเภทบริการครับ/ค่ะ'); return; }
+    hideErr(1); gotoStep(2);
+
+  } else if (currentStep === 2) {
+    var date = document.getElementById('preferredDate').value;
+    if (!date)         { showErr(2,'กรุณาเลือกวันที่ครับ/ค่ะ'); return; }
+    if (!selectedSlot) { showErr(2,'กรุณาเลือกช่วงเวลาครับ/ค่ะ'); return; }
+    hideErr(2); buildSummary(); gotoStep(3);
+    document.getElementById('btnNext').disabled = !document.getElementById('pdpaConsent').checked;
+
+  } else if (currentStep === 3) {
+    submitBooking();
+  }
+}
+
+function goBack() {
+  if (currentStep > 1) gotoStep(currentStep - 1);
+}
+
+function gotoStep(n) {
+  document.getElementById('step' + currentStep).classList.remove('active');
+  currentStep = n;
+  document.getElementById('step' + n).classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateUI() {
+  for (var i = 1; i <= 3; i++) {
+    var d = document.getElementById('dot' + i);
+    d.className = 'step-dot';
+    if (i < currentStep)  d.classList.add('done');
+    if (i === currentStep) d.classList.add('active');
+  }
+  document.getElementById('btnBack').style.display = currentStep > 1 ? 'flex' : 'none';
+  var labels = { 1:'ถัดไป →', 2:'ถัดไป →', 3:'📅 ยืนยันการนัดหมาย' };
+  document.getElementById('btnLabel').textContent = labels[currentStep];
+}
+
+// ─── Build Summary ───
+function buildSummary() {
+  var fn   = document.getElementById('firstName').value.trim();
+  var ln   = document.getElementById('lastName').value.trim();
+  var ph   = document.getElementById('phone').value.trim();
   var date = document.getElementById('preferredDate').value;
-  if (date) loadSlots();
-}
-
-function generateBookingId() {
-  var now  = new Date();
-  var yyyy = now.getFullYear();
-  var mm   = String(now.getMonth() + 1).padStart(2, '0');
-  var dd   = String(now.getDate()).padStart(2, '0');
-  var hh   = String(now.getHours()).padStart(2, '0');
-  var min  = String(now.getMinutes()).padStart(2, '0');
-  return 'BK' + yyyy + mm + dd + '-' + hh + min;
-}
-
-function submitBooking() {
-  var fullName    = document.getElementById('fullName').value.trim();
-  var phone       = document.getElementById('phone').value.trim();
-  var serviceType = document.getElementById('serviceType').value;
-  var date        = document.getElementById('preferredDate').value;
-  var notes       = document.getElementById('notes').value.trim();
-
-  if (!fullName)                 { showError('กรุณากรอกชื่อ-นามสกุลครับ/ค่ะ');        return; }
-  if (!phone || phone.length < 9){ showError('กรุณากรอกเบอร์โทรให้ถูกต้องครับ/ค่ะ'); return; }
-  if (!serviceType)              { showError('กรุณาเลือกประเภทงานครับ/ค่ะ');          return; }
-  if (!date)                     { showError('กรุณาเลือกวันที่ครับ/ค่ะ');              return; }
-  if (!selectedSlot)             { showError('กรุณาเลือกช่วงเวลาครับ/ค่ะ');           return; }
-
-  hideError();
-  showLoading(true);
-
-  var bookingData = {
-    action:        'createBooking',
-    lineUserId:    lineUserId,
-    displayName:   displayName,
-    fullName:      fullName,
-    phone:         phone,
-    serviceType:   serviceType,
-    preferredDate: date,
-    preferredSlot: selectedSlot,
-    notes:         notes
-  };
-
-  fetch(POST_URL, {
-    method:  'POST',
-    mode:    'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body:    JSON.stringify(bookingData)
-  }).then(function() {
-    showSuccess(generateBookingId());
-  }).catch(function(err) {
-    console.error('submitBooking error:', err);
-    showLoading(false);
-    showError('ส่งข้อมูลไม่ได้ กรุณาตรวจสอบอินเทอร์เน็ตและลองใหม่ครับ/ค่ะ');
+  var rows = [
+    ['ชื่อ-นามสกุล', fn + ' ' + ln],
+    ['เบอร์โทร',     ph],
+    ['ประเภทบริการ', selectedSvc],
+    ['วันที่',       fmtDate(date)],
+    ['ช่วงเวลา',     selectedSlot],
+  ];
+  var h = '';
+  rows.forEach(function(r){
+    h += '<div class="summary-row"><span class="sum-key">'+r[0]+'</span><span class="sum-val">'+r[1]+'</span></div>';
   });
+  document.getElementById('summaryBox').innerHTML = h;
 }
 
-function showLoading(show) {
-  document.getElementById('formSection').style.display    = show ? 'none' : 'block';
-  document.getElementById('loadingSection').style.display = show ? 'block' : 'none';
+function fmtDate(s) {
+  if (!s) return '';
+  var p = s.split('-');
+  return p[2]+'/'+p[1]+'/'+p[0];
 }
 
-function showSuccess(bookingId) {
-  document.getElementById('formSection').style.display    = 'none';
-  document.getElementById('loadingSection').style.display = 'none';
-  document.getElementById('successSection').style.display = 'block';
-  document.getElementById('bookingIdDisplay').textContent = '📋 รหัสการจอง: ' + bookingId;
+// ─── Submit ───
+function submitBooking() {
+  var fn    = document.getElementById('firstName').value.trim();
+  var ln    = document.getElementById('lastName').value.trim();
+  var ph    = document.getElementById('phone').value.trim();
+  var date  = document.getElementById('preferredDate').value;
+  var notes = document.getElementById('notes').value.trim();
+
+  var msg = '📋 ขอจองคิวปรึกษา — DPT e-Booking\n'
+          + '━━━━━━━━━━━━━━━\n'
+          + '👤 ชื่อ-นามสกุล: ' + fn + ' ' + ln      + '\n'
+          + '📞 เบอร์โทร: '     + ph                  + '\n'
+          + '📌 บริการ: '       + selectedSvc          + '\n'
+          + '📅 วันที่: '       + fmtDate(date)        + '\n'
+          + '🕐 เวลา: '         + selectedSlot         + '\n'
+          + '📝 หมายเหตุ: '     + (notes || '-')       + '\n'
+          + '━━━━━━━━━━━━━━━\n'
+          + '✅ ยินยอม PDPA\n'
+          + '#BOOKING #YPM_BURIRAM';
+
+  document.getElementById('step3').classList.remove('active');
+  document.getElementById('btnRow').style.display        = 'none';
+  document.getElementById('stepIndicator').style.display = 'none';
+  document.getElementById('loadingSection').style.display = 'block';
+
+  liff.sendMessages([{ type: 'text', text: msg }])
+    .then(function() {
+      var now = new Date();
+      var id  = 'BK'
+              + now.getFullYear()
+              + String(now.getMonth()+1).padStart(2,'0')
+              + String(now.getDate()).padStart(2,'0')
+              + '-'
+              + String(now.getHours()).padStart(2,'0')
+              + String(now.getMinutes()).padStart(2,'0');
+      document.getElementById('loadingSection').style.display  = 'none';
+      document.getElementById('successSection').style.display  = 'block';
+      document.getElementById('bookingIdDisplay').textContent  = id;
+    })
+    .catch(function(err) {
+      console.error(err);
+      document.getElementById('loadingSection').style.display  = 'none';
+      document.getElementById('step3').classList.add('active');
+      document.getElementById('btnRow').style.display          = 'flex';
+      document.getElementById('stepIndicator').style.display   = 'flex';
+      showErr(3, 'ส่งข้อมูลไม่ได้ กรุณาลองใหม่ครับ/ค่ะ');
+    });
 }
 
-function showError(msg) {
-  var el = document.getElementById('errorMsg');
-  el.textContent   = '⚠️ ' + msg;
-  el.style.display = 'block';
-  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+// ─── Helpers ───
+function showErr(n, msg) {
+  var el = document.getElementById('err' + n);
+  document.getElementById('err' + n + 't').textContent = msg;
+  el.classList.add('show');
+  el.scrollIntoView({ behavior:'smooth', block:'center' });
 }
-
-function hideError() {
-  document.getElementById('errorMsg').style.display = 'none';
-}
+function hideErr(n) { document.getElementById('err' + n).classList.remove('show'); }
 
 function setMinDate() {
-  var d   = new Date();
+  var d = new Date();
   d.setDate(d.getDate() + 1);
-  var yyyy = d.getFullYear();
-  var mm   = String(d.getMonth() + 1).padStart(2, '0');
-  var dd   = String(d.getDate()).padStart(2, '0');
-  document.getElementById('preferredDate').min = yyyy + '-' + mm + '-' + dd;
+  document.getElementById('preferredDate').min =
+    d.getFullYear() + '-' +
+    String(d.getMonth()+1).padStart(2,'0') + '-' +
+    String(d.getDate()).padStart(2,'0');
 }
 
 window.addEventListener('load', function() {
@@ -262,6 +896,5 @@ window.addEventListener('load', function() {
   initLiff();
 });
 </script>
-
 </body>
 </html>
