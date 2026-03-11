@@ -350,28 +350,32 @@
       notes:         notes
     };
 
-    try {
-      var res  = await fetch(POST_URL, {
+  try {
+      // ใช้ no-cors เพราะ Make.com ไม่ return CORS Header
+      // จึงไม่สามารถอ่าน Response ได้ แต่ Make.com รับข้อมูลได้ปกติ
+      fetch(POST_URL, {
         method:  'POST',
+        mode:    'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(bookingData)
       });
 
-      var data = await res.json();
+      // สร้าง bookingId ฝั่ง client ชั่วคราว เพื่อแสดงผล
+      var today     = new Date();
+      var yyyy      = today.getFullYear();
+      var mm        = String(today.getMonth() + 1).padStart(2, '0');
+      var dd        = String(today.getDate()).padStart(2, '0');
+      var timeStr   = String(today.getHours()).padStart(2, '0')
+                    + String(today.getMinutes()).padStart(2, '0');
+      var bookingId = 'BK' + yyyy + mm + dd + '-' + timeStr;
 
-      if (data.success) {
-        showSuccess(data.bookingId);
-      } else {
-        showLoading(false);
-        showError('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้งครับ/ค่ะ');
-      }
+      showSuccess(bookingId);
 
     } catch (err) {
       console.error('submitBooking error:', err);
       showLoading(false);
       showError('ส่งข้อมูลไม่ได้ กรุณาตรวจสอบอินเทอร์เน็ตและลองใหม่ครับ/ค่ะ');
     }
-  }
 
   // ---------------------------------------------------------
   // Helper
