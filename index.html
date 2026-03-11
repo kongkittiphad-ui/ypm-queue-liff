@@ -662,8 +662,8 @@ textarea { resize: none; line-height: 1.6; }
 // =========================================================
 // CONFIG — แก้ 2 ค่านี้
 // =========================================================
-var LIFF_ID = 'วาง_LIFF_ID_ตรงนี้';
-var GET_URL  = 'วาง_Apps_Script_URL_ตรงนี้';
+var LIFF_ID = '2009411953-W4NYD3v1';
+var GET_URL  = 'https://ypm-proxy.kong-kittiphad.workers.dev/';
 // =========================================================
 
 var lineUserId   = '';
@@ -849,29 +849,35 @@ function submitBooking() {
   document.getElementById('stepIndicator').style.display = 'none';
   document.getElementById('loadingSection').style.display = 'block';
 
-  liff.sendMessages([{ type: 'text', text: msg }])
-    .then(function() {
-      var now = new Date();
-      var id  = 'BK'
-              + now.getFullYear()
-              + String(now.getMonth()+1).padStart(2,'0')
-              + String(now.getDate()).padStart(2,'0')
-              + '-'
-              + String(now.getHours()).padStart(2,'0')
-              + String(now.getMinutes()).padStart(2,'0');
-      document.getElementById('loadingSection').style.display  = 'none';
-      document.getElementById('successSection').style.display  = 'block';
-      document.getElementById('bookingIdDisplay').textContent  = id;
-    })
-    .catch(function(err) {
-      console.error(err);
-      document.getElementById('loadingSection').style.display  = 'none';
-      document.getElementById('step3').classList.add('active');
-      document.getElementById('btnRow').style.display          = 'flex';
-      document.getElementById('stepIndicator').style.display   = 'flex';
-      showErr(3, 'ส่งข้อมูลไม่ได้ กรุณาลองใหม่ครับ/ค่ะ');
-    });
-}
+  fetch(GET_URL, {
+  method:  'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body:    JSON.stringify({
+    action:        'createBooking',
+    lineUserId:    lineUserId,
+    displayName:   document.getElementById('firstName').value.trim() + ' ' + document.getElementById('lastName').value.trim(),
+    fullName:      document.getElementById('firstName').value.trim() + ' ' + document.getElementById('lastName').value.trim(),
+    phone:         document.getElementById('phone').value.trim(),
+    serviceType:   selectedSvc,
+    preferredDate: document.getElementById('preferredDate').value,
+    preferredSlot: selectedSlot,
+    notes:         document.getElementById('notes').value.trim()
+  })
+})
+.then(function(res) { return res.json(); })
+.then(function(data) {
+  document.getElementById('loadingSection').style.display  = 'none';
+  document.getElementById('successSection').style.display  = 'block';
+  document.getElementById('bookingIdDisplay').textContent  = data.bookingId || generateBookingId();
+})
+.catch(function(err) {
+  console.error(err);
+  document.getElementById('loadingSection').style.display  = 'none';
+  document.getElementById('step3').classList.add('active');
+  document.getElementById('btnRow').style.display          = 'flex';
+  document.getElementById('stepIndicator').style.display   = 'flex';
+  showErr(3, 'ส่งข้อมูลไม่ได้ กรุณาลองใหม่ครับ/ค่ะ');
+});
 
 // ─── Helpers ───
 function showErr(n, msg) {
