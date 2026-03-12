@@ -524,10 +524,24 @@ var userId = '', userName = '', selSlot = '', step = 1;
 async function initLiff() {
   try {
     await liff.init({ liffId: LIFF_ID });
-    if (!liff.isLoggedIn()) { liff.login(); return; }
-    var p = await liff.getProfile();
-    userId = p.userId; userName = p.displayName;
-  } catch(e) { console.error(e); }
+    if (!liff.isLoggedIn()) {
+      liff.login();
+      return;
+    }
+    var p  = await liff.getProfile();
+    userId = p.userId;
+    userName = p.displayName;
+
+    // Debug — ลบทิ้งได้หลังแก้สำเร็จ
+    console.log('✅ LIFF OK, userId:', userId);
+
+  } catch(e) {
+    console.error('❌ LIFF Error:', e);
+    // แสดง error ให้เห็นบนหน้าจอ
+    document.body.insertAdjacentHTML('afterbegin',
+      '<div style="background:red;color:white;padding:10px;font-size:13px;">LIFF Error: ' + e.toString() + '</div>'
+    );
+  }
 }
 
 function getSvc() {
@@ -647,6 +661,10 @@ function fmtDate(s) {
 }
 
 function submit() {
+  if (!userId) {
+    showErr(3, 'ไม่พบข้อมูล LINE กรุณาปิดแล้วเปิดใหม่ผ่าน LINE');
+    return;
+  }
   var fn = document.getElementById('fn').value.trim();
   var ln = document.getElementById('ln').value.trim();
   var ph = document.getElementById('ph').value.trim();
