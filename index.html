@@ -35,7 +35,7 @@ body{
   min-height:100vh;color:var(--ink);
 }
 
-/* ─── HEADER (Text Only) ─── */
+/* ─── HEADER ─── */
 .hdr{
   padding:22px 20px 20px;
   background:linear-gradient(180deg,rgba(6,18,52,.97),rgba(10,31,92,.92));
@@ -49,20 +49,12 @@ body{
   font-size:14px;font-weight:600;color:rgba(255,255,255,.80);
   line-height:1.5;margin-bottom:14px;
 }
-.hdr-divider{
-  height:1px;background:rgba(255,255,255,.12);margin-bottom:14px;
-}
-.hdr-system{
-  font-size:26px;font-weight:800;color:#fff;line-height:1.15;
-  letter-spacing:-.3px;
-}
+.hdr-divider{height:1px;background:rgba(255,255,255,.12);margin-bottom:14px;}
+.hdr-system{font-size:26px;font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.3px;}
 .hdr-system b{color:var(--gold);}
-.hdr-tagline{
-  font-size:13px;font-weight:400;color:rgba(255,255,255,.60);
-  margin-top:5px;line-height:1.5;
-}
+.hdr-tagline{font-size:13px;font-weight:400;color:rgba(255,255,255,.60);margin-top:5px;line-height:1.5;}
 
-/* ─── STEPS BAR ─── */
+/* ─── STEPS ─── */
 .steps{display:flex;gap:5px;padding:14px 20px 0;}
 .step{height:4px;flex:1;border-radius:2px;background:rgba(255,255,255,.18);transition:all .35s;}
 .step.done{background:rgba(255,255,255,.45);}
@@ -72,28 +64,17 @@ body{
 .wrap{padding:14px 14px 48px;}
 
 /* ─── CARD ─── */
-.card{
-  background:var(--white);border-radius:var(--r);
-  box-shadow:var(--sh);padding:22px 18px;
-  display:none;animation:up .28s ease;
-}
+.card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:22px 18px;display:none;animation:up .28s ease;}
 .card.show{display:block;}
 @keyframes up{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.card-step{
-  font-size:10px;font-weight:700;letter-spacing:1.2px;
-  color:var(--light);text-transform:uppercase;margin-bottom:4px;
-}
+.card-step{font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--light);text-transform:uppercase;margin-bottom:4px;}
 .card-title{font-size:19px;font-weight:800;color:var(--ink);margin-bottom:20px;}
 
 /* ─── FIELDS ─── */
 .field{margin-bottom:17px;}
 .field:last-of-type{margin-bottom:0;}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.lbl{
-  font-size:13px;font-weight:600;color:var(--ink2);
-  letter-spacing:.2px;margin-bottom:7px;
-  display:flex;align-items:center;gap:3px;
-}
+.lbl{font-size:13px;font-weight:600;color:var(--ink2);letter-spacing:.2px;margin-bottom:7px;display:flex;align-items:center;gap:3px;}
 .req{color:var(--red);font-size:15px;line-height:1;}
 .hr{height:1px;background:var(--border);margin:20px 0;}
 input[type=text],input[type=tel],input[type=date],select,textarea{
@@ -103,9 +84,7 @@ input[type=text],input[type=tel],input[type=date],select,textarea{
   appearance:none;-webkit-appearance:none;outline:none;
   transition:border-color .2s,box-shadow .2s,background .2s;
 }
-input:focus,select:focus,textarea:focus{
-  border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px var(--pale);
-}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px var(--pale);}
 input::placeholder,textarea::placeholder{color:var(--ink3);}
 select{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A5878' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
@@ -117,106 +96,54 @@ textarea{resize:none;line-height:1.6;}
 .svc-list{display:grid;gap:10px;}
 .svc-item{position:relative;}
 .svc-item input[type=radio]{position:absolute;opacity:0;width:0;height:0;}
-.svc-label{
-  display:flex;align-items:center;gap:14px;
-  border:1.5px solid var(--border);border-radius:12px;
-  padding:14px;cursor:pointer;background:var(--bg);transition:all .2s;
-}
-.svc-item input[type=radio]:checked + .svc-label{
-  border-color:var(--blue);background:var(--pale);box-shadow:0 0 0 3px var(--pale2);
-}
-.svc-ic{
-  width:44px;height:44px;background:var(--pale);border-radius:10px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;
-}
+.svc-label{display:flex;align-items:center;gap:14px;border:1.5px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;background:var(--bg);transition:all .2s;}
+.svc-item input[type=radio]:checked + .svc-label{border-color:var(--blue);background:var(--pale);box-shadow:0 0 0 3px var(--pale2);}
+.svc-ic{width:44px;height:44px;background:var(--pale);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
 .svc-item input[type=radio]:checked + .svc-label .svc-ic{background:var(--blue);}
 .svc-item input[type=radio]:checked + .svc-label .svc-ic svg{stroke:#fff;}
 .svc-info{flex:1;min-width:0;}
 .svc-name{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px;}
 .svc-desc{font-size:11px;color:var(--ink3);line-height:1.4;}
 .svc-item input[type=radio]:checked + .svc-label .svc-name{color:var(--blue);}
-.svc-dot{
-  width:20px;height:20px;border-radius:50%;border:2px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;background:#fff;transition:all .2s;
-}
+.svc-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;transition:all .2s;}
 .svc-dot-in{width:10px;height:10px;border-radius:50%;background:var(--blue);transform:scale(0);transition:transform .2s;}
 .svc-item input[type=radio]:checked + .svc-label .svc-dot{border-color:var(--blue);}
 .svc-item input[type=radio]:checked + .svc-label .svc-dot-in{transform:scale(1);}
 
 /* ─── SLOTS ─── */
-.slot-hint,.slot-loading{
-  text-align:center;padding:16px;font-size:13px;color:var(--ink3);
-  background:var(--bg);border-radius:10px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.mini-spin{
-  width:16px;height:16px;border:2px solid var(--border);
-  border-top-color:var(--blue);border-radius:50%;
-  animation:spin .7s linear infinite;flex-shrink:0;
-}
+.slot-hint,.slot-loading{text-align:center;padding:16px;font-size:13px;color:var(--ink3);background:var(--bg);border-radius:10px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.mini-spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .slot-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.slot-btn{
-  padding:12px 8px;border:1.5px solid var(--border);border-radius:10px;
-  background:var(--bg);font-size:14px;font-weight:500;
-  font-family:'DM Sans',sans-serif;color:var(--ink);
-  cursor:pointer;text-align:center;transition:all .2s;
-}
+.slot-btn{padding:12px 8px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;color:var(--ink);cursor:pointer;text-align:center;transition:all .2s;}
 .slot-btn:active{transform:scale(.97);}
 .slot-btn.on{border-color:var(--blue);background:var(--blue);color:#fff;font-weight:600;}
-.slot-empty{
-  grid-column:1/-1;text-align:center;padding:16px;
-  font-size:13px;color:var(--red);background:var(--redl);border-radius:10px;line-height:1.6;
-}
+.slot-empty{grid-column:1/-1;text-align:center;padding:16px;font-size:13px;color:var(--red);background:var(--redl);border-radius:10px;line-height:1.6;}
 
 /* ─── PDPA ─── */
-.pdpa{
-  background:linear-gradient(135deg,#EEF2FF,var(--pale));
-  border:1px solid #C7D7F8;border-radius:12px;padding:16px;margin-bottom:16px;
-}
+.pdpa{background:linear-gradient(135deg,#EEF2FF,var(--pale));border:1px solid #C7D7F8;border-radius:12px;padding:16px;margin-bottom:16px;}
 .pdpa-title{font-size:13px;font-weight:700;color:var(--deep);margin-bottom:8px;}
 .pdpa-body{font-size:12px;color:var(--ink2);line-height:1.75;margin-bottom:14px;}
 .pdpa-body strong{color:var(--deep);}
 .pdpa-row{display:flex;align-items:flex-start;gap:10px;}
-.pdpa-row input[type=checkbox]{
-  width:20px;height:20px;min-width:20px;
-  accent-color:var(--blue);cursor:pointer;margin-top:1px;
-  padding:0;border:none;background:none;box-shadow:none;
-}
+.pdpa-row input[type=checkbox]{width:20px;height:20px;min-width:20px;accent-color:var(--blue);cursor:pointer;margin-top:1px;padding:0;border:none;background:none;box-shadow:none;}
 .pdpa-row label{font-size:13px;font-weight:600;color:var(--deep);cursor:pointer;line-height:1.5;}
 
 /* ─── SUMMARY ─── */
 .sum-box{background:var(--pale);border-radius:12px;padding:16px;margin-bottom:16px;}
-.sum-row{
-  display:flex;justify-content:space-between;align-items:baseline;
-  padding:9px 0;border-bottom:1px solid rgba(21,101,192,.1);gap:10px;
-}
+.sum-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid rgba(21,101,192,.1);gap:10px;}
 .sum-row:last-child{border-bottom:none;padding-bottom:0;}
 .sum-k{font-size:13px;color:var(--ink2);flex-shrink:0;}
 .sum-v{font-size:14px;font-weight:600;color:var(--blue);text-align:right;}
 
 /* ─── ERROR ─── */
-.err{
-  display:none;background:var(--redl);color:var(--red);
-  border-radius:10px;padding:11px 14px;font-size:13px;
-  font-weight:500;margin-bottom:14px;align-items:center;gap:8px;
-}
+.err{display:none;background:var(--redl);color:var(--red);border-radius:10px;padding:11px 14px;font-size:13px;font-weight:500;margin-bottom:14px;align-items:center;gap:8px;}
 .err.on{display:flex;}
 
 /* ─── BUTTONS ─── */
 .btn-row{display:flex;gap:10px;padding:12px 14px 0;}
-.btn{
-  flex:1;padding:15px;border-radius:12px;font-size:16px;
-  font-weight:700;font-family:'Noto Sans Thai',sans-serif;
-  cursor:pointer;border:none;transition:all .2s;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.btn-back{
-  background:rgba(255,255,255,.18);color:#fff;
-  flex:0 0 52px;padding:15px 0;font-size:20px;
-  border:1px solid rgba(255,255,255,.25);
-}
+.btn{flex:1;padding:15px;border-radius:12px;font-size:16px;font-weight:700;font-family:'Noto Sans Thai',sans-serif;cursor:pointer;border:none;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-back{background:rgba(255,255,255,.18);color:#fff;flex:0 0 52px;padding:15px 0;font-size:20px;border:1px solid rgba(255,255,255,.25);}
 .btn-back:active{background:rgba(255,255,255,.28);}
 .btn-main{background:var(--gold);color:var(--deep);box-shadow:0 4px 14px rgba(255,214,0,.38);}
 .btn-main:active{transform:scale(.98);}
@@ -224,82 +151,38 @@ textarea{resize:none;line-height:1.6;}
 
 /* ─── LOADING ─── */
 #loadSec{display:none;text-align:center;padding:80px 20px;}
-.big-spin{
-  width:54px;height:54px;border:4px solid rgba(255,255,255,.2);
-  border-top-color:var(--gold);border-radius:50%;
-  animation:spin .8s linear infinite;margin:0 auto 20px;
-}
+.big-spin{width:54px;height:54px;border:4px solid rgba(255,255,255,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 20px;}
 #loadSec p{font-size:15px;color:rgba(255,255,255,.7);}
 
 /* ─── SUCCESS ─── */
 #okSec{display:none;text-align:center;padding:16px 14px 48px;animation:up .4s ease;}
-.ok-ring{
-  width:88px;height:88px;border-radius:50%;
-  background:var(--greenl);border:3px solid #4CAF50;
-  display:flex;align-items:center;justify-content:center;
-  font-size:40px;margin:0 auto 20px;
-}
+.ok-ring{width:88px;height:88px;border-radius:50%;background:var(--greenl);border:3px solid #4CAF50;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 20px;}
 .ok-card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:24px 18px;margin-bottom:14px;}
 .ok-title{font-size:22px;font-weight:800;color:var(--ink);margin-bottom:6px;}
-.ok-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--pale);color:var(--blue);border-radius:24px;
-  padding:10px 20px;font-size:15px;font-weight:800;
-  font-family:'DM Sans',sans-serif;margin-bottom:16px;
-}
+.ok-badge{display:inline-flex;align-items:center;gap:8px;background:var(--pale);color:var(--blue);border-radius:24px;padding:10px 20px;font-size:15px;font-weight:800;font-family:'DM Sans',sans-serif;margin-bottom:16px;}
 .ok-note{font-size:14px;color:var(--ink2);line-height:1.75;margin-bottom:16px;}
 .ok-list{}
-.ok-item{
-  display:flex;align-items:flex-start;gap:10px;
-  font-size:13px;color:var(--ink2);
-  padding:9px 0;border-bottom:1px solid var(--border);line-height:1.5;
-}
+.ok-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--ink2);padding:9px 0;border-bottom:1px solid var(--border);line-height:1.5;}
 .ok-item:last-child{border-bottom:none;}
 .ok-item span:first-child{font-size:16px;flex-shrink:0;}
 
 /* ─── DOCUMENT GUIDE ─── */
-.doc-card{
-  background:var(--white);border-radius:var(--r);
-  box-shadow:var(--sh);padding:20px 18px;text-align:left;
-}
-.doc-title{
-  font-size:16px;font-weight:800;color:var(--deep);
-  margin-bottom:4px;display:flex;align-items:center;gap:8px;
-}
+.doc-card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:20px 18px;text-align:left;}
+.doc-title{font-size:16px;font-weight:800;color:var(--deep);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
 .doc-sub{font-size:12px;color:var(--ink3);margin-bottom:16px;}
 .doc-section{margin-bottom:16px;}
 .doc-section:last-child{margin-bottom:0;}
-.doc-section-title{
-  font-size:13px;font-weight:700;color:var(--blue);
-  margin-bottom:8px;padding-bottom:5px;
-  border-bottom:1.5px solid var(--pale2);
-  display:flex;align-items:center;gap:6px;
-}
-.doc-item{
-  display:flex;align-items:flex-start;gap:8px;
-  font-size:13px;color:var(--ink);padding:5px 0;line-height:1.55;
-}
-.doc-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--blue);flex-shrink:0;margin-top:7px;
-}
-.doc-note{
-  font-size:11px;color:var(--ink3);background:var(--bg);
-  border-radius:8px;padding:8px 12px;margin-top:10px;line-height:1.6;
-}
-.contact-bar{
-  display:flex;flex-direction:column;gap:6px;
-  margin-top:16px;padding-top:14px;border-top:1px solid var(--border);
-}
-.contact-item{
-  display:flex;align-items:center;gap:8px;
-  font-size:13px;color:var(--ink2);
-}
+.doc-section-title{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:8px;padding-bottom:5px;border-bottom:1.5px solid var(--pale2);display:flex;align-items:center;gap:6px;}
+.doc-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);padding:5px 0;line-height:1.55;}
+.doc-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:7px;}
+.doc-note{font-size:11px;color:var(--ink3);background:var(--bg);border-radius:8px;padding:8px 12px;margin-top:10px;line-height:1.6;}
+.contact-bar{display:flex;flex-direction:column;gap:6px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);}
+.contact-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);}
 </style>
 </head>
 <body>
 
-<!-- Header (Text Only) -->
+<!-- Header -->
 <div class="hdr">
   <div class="hdr-dept">กรมโยธาธิการและผังเมือง</div>
   <div class="hdr-office">สำนักงานโยธาธิการและผังเมืองจังหวัดบุรีรัมย์</div>
@@ -322,7 +205,6 @@ textarea{resize:none;line-height:1.6;}
     <div class="card-step">ขั้นตอน 1 / 3</div>
     <div class="card-title">ข้อมูลผู้รับบริการ</div>
     <div class="err" id="e1"><span>⚠️</span><span id="e1t"></span></div>
-
     <div class="row2">
       <div class="field">
         <div class="lbl">ชื่อ <span class="req">*</span></div>
@@ -333,18 +215,14 @@ textarea{resize:none;line-height:1.6;}
         <input type="text" id="ln" placeholder="เช่น ใจดี"/>
       </div>
     </div>
-
     <div class="field">
       <div class="lbl">เบอร์โทรศัพท์ <span class="req">*</span></div>
       <input type="tel" id="ph" placeholder="0xxxxxxxxx" maxlength="10"/>
     </div>
-
     <div class="hr"></div>
-
     <div class="field">
       <div class="lbl">ประเภทบริการ <span class="req">*</span></div>
       <div class="svc-list">
-
         <div class="svc-item">
           <input type="radio" name="svc" id="r-ch" value="งานบริการด้านช่าง"/>
           <label class="svc-label" for="r-ch">
@@ -360,7 +238,6 @@ textarea{resize:none;line-height:1.6;}
             <div class="svc-dot"><div class="svc-dot-in"></div></div>
           </label>
         </div>
-
         <div class="svc-item">
           <input type="radio" name="svc" id="r-pm" value="งานบริการด้านผังเมือง"/>
           <label class="svc-label" for="r-pm">
@@ -378,7 +255,6 @@ textarea{resize:none;line-height:1.6;}
             <div class="svc-dot"><div class="svc-dot-in"></div></div>
           </label>
         </div>
-
       </div>
     </div>
   </div>
@@ -388,17 +264,14 @@ textarea{resize:none;line-height:1.6;}
     <div class="card-step">ขั้นตอน 2 / 3</div>
     <div class="card-title">เลือกวันและเวลา</div>
     <div class="err" id="e2"><span>⚠️</span><span id="e2t"></span></div>
-
     <div class="field">
       <div class="lbl">วันที่ต้องการ <span class="req">*</span></div>
       <input type="date" id="dt" onchange="loadSlots()"/>
     </div>
-
     <div class="field">
       <div class="lbl">ช่วงเวลา <span class="req">*</span></div>
       <div id="slotBox"><div class="slot-hint">กรุณาเลือกวันที่ก่อน</div></div>
     </div>
-
     <div class="field">
       <div class="lbl">หมายเหตุ / เรื่องที่ต้องการปรึกษา</div>
       <textarea id="nt" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติม..."></textarea>
@@ -410,9 +283,7 @@ textarea{resize:none;line-height:1.6;}
     <div class="card-step">ขั้นตอน 3 / 3</div>
     <div class="card-title">ยืนยันการนัดหมาย</div>
     <div class="err" id="e3"><span>⚠️</span><span id="e3t"></span></div>
-
     <div class="sum-box" id="sumBox"></div>
-
     <div class="pdpa">
       <div class="pdpa-title">🔒 ความยินยอมตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล</div>
       <div class="pdpa-body">
@@ -425,7 +296,6 @@ textarea{resize:none;line-height:1.6;}
         <label for="pdpa">ข้าพเจ้ายินยอมให้จัดเก็บข้อมูลส่วนบุคคลตามที่ระบุข้างต้น</label>
       </div>
     </div>
-
     <p style="font-size:12px;color:var(--ink3);text-align:center;line-height:1.6;">
       เมื่อกดยืนยัน เจ้าหน้าที่จะติดต่อกลับผ่าน LINE ของท่าน
     </p>
@@ -439,10 +309,7 @@ textarea{resize:none;line-height:1.6;}
 
   <!-- Success -->
   <div id="okSec">
-
     <div class="ok-ring">✅</div>
-
-    <!-- ข้อมูลการจอง -->
     <div class="ok-card">
       <div class="ok-title">จองคิวสำเร็จ!</div>
       <div class="ok-badge">📋 <span id="okId"></span></div>
@@ -456,21 +323,15 @@ textarea{resize:none;line-height:1.6;}
         <div class="ok-item"><span>📞</span><span>สอบถามข้อมูลเพิ่มเติม โทร 044-621309</span></div>
       </div>
     </div>
-
-    <!-- คู่มือเตรียมเอกสาร -->
     <div class="doc-card">
       <div class="doc-title">📄 เอกสารที่ควรเตรียม</div>
       <div class="doc-sub">เตรียมเอกสารให้พร้อมก่อนวันนัดหมาย เพื่อความสะดวกรวดเร็ว</div>
-
-      <!-- เอกสารส่วนตัว -->
       <div class="doc-section">
         <div class="doc-section-title">👤 เอกสารส่วนตัว (ทุกประเภทบริการ)</div>
         <div class="doc-item"><div class="doc-dot"></div><span>บัตรประจำตัวประชาชน (ตัวจริง)</span></div>
         <div class="doc-item"><div class="doc-dot"></div><span>ทะเบียนบ้าน (ตัวจริงหรือสำเนา)</span></div>
         <div class="doc-item"><div class="doc-dot"></div><span>กรณีตัวแทน — ใบมอบอำนาจ พร้อมบัตรประชาชนผู้มอบอำนาจ</span></div>
       </div>
-
-      <!-- งานด้านช่าง -->
       <div class="doc-section">
         <div class="doc-section-title">🔧 งานบริการด้านช่าง</div>
         <div class="doc-item"><div class="doc-dot"></div><span>โฉนดที่ดิน / น.ส.3 / เอกสารสิทธิ์ที่ดิน</span></div>
@@ -478,8 +339,6 @@ textarea{resize:none;line-height:1.6;}
         <div class="doc-item"><div class="doc-dot"></div><span>รูปถ่ายอาคารหรือสิ่งก่อสร้างปัจจุบัน</span></div>
         <div class="doc-item"><div class="doc-dot"></div><span>ใบอนุญาตก่อสร้างเดิม (กรณีต่อเติม/ดัดแปลง)</span></div>
       </div>
-
-      <!-- งานด้านผังเมือง -->
       <div class="doc-section">
         <div class="doc-section-title">🗺 งานบริการด้านผังเมือง</div>
         <div class="doc-item"><div class="doc-dot"></div><span>โฉนดที่ดิน / หนังสือแสดงสิทธิ์ที่ดิน</span></div>
@@ -487,18 +346,15 @@ textarea{resize:none;line-height:1.6;}
         <div class="doc-item"><div class="doc-dot"></div><span>เอกสารโครงการ (กรณีขอตรวจสอบการใช้ประโยชน์ที่ดิน)</span></div>
         <div class="doc-item"><div class="doc-dot"></div><span>หนังสือรับรองนิติบุคคล (กรณีนิติบุคคลเป็นผู้ยื่น)</span></div>
       </div>
-
       <div class="doc-note">
         💡 เอกสารอาจแตกต่างกันตามประเภทงาน เจ้าหน้าที่จะแจ้งรายละเอียดเพิ่มเติมหลังยืนยันนัดหมาย
       </div>
-
       <div class="contact-bar">
         <div class="contact-item">📞 <span>โทร 044-621309</span></div>
         <div class="contact-item">🏢 <span>สำนักงานโยธาธิการและผังเมืองจังหวัดบุรีรัมย์</span></div>
         <div class="contact-item">🕐 <span>เปิดทำการ จันทร์–ศุกร์ 08:30–16:30 น.</span></div>
       </div>
     </div>
-
   </div>
 
 </div>
@@ -524,9 +380,9 @@ async function initLiff() {
     var p    = await liff.getProfile();
     userId   = p.userId;
     userName = p.displayName;
-    console.log('✅ LIFF OK, userId:', userId);
+    console.log('LIFF OK, userId:', userId);
   } catch(e) {
-    console.error('❌ LIFF Error:', e);
+    console.error('LIFF Error:', e);
     document.body.insertAdjacentHTML('afterbegin',
       '<div style="background:red;color:white;padding:10px;font-size:13px;">LIFF Error: ' + e.toString() + '</div>'
     );
@@ -616,7 +472,7 @@ function updateUI() {
   for (var i = 1; i <= 3; i++) {
     var el = document.getElementById('s' + i);
     el.className = 'step';
-    if (i < step)  el.classList.add('done');
+    if (i < step)   el.classList.add('done');
     if (i === step) el.classList.add('now');
   }
   document.getElementById('btnBack').style.display = step > 1 ? 'flex' : 'none';
@@ -650,10 +506,6 @@ function fmtDate(s) {
 }
 
 function submit() {
-  if (!userId) {
-    showErr(3, 'ไม่พบข้อมูล LINE กรุณาปิดแล้วเปิดใหม่ผ่าน LINE');
-    return;
-  }
   var fn = document.getElementById('fn').value.trim();
   var ln = document.getElementById('ln').value.trim();
   var ph = document.getElementById('ph').value.trim();
