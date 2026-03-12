@@ -512,32 +512,21 @@ textarea{resize:none;line-height:1.6;}
 </div>
 
 <script>
-// =========================================================
-// CONFIG — แก้ 2 ค่านี้
-// =========================================================
-var LIFF_ID = 'https://liff.line.me/2009411953-W4NYD3v1';
+var LIFF_ID = '2009411953-W4NYD3v1';
 var API_URL  = 'https://ypm-proxy.kong-kittiphad.workers.dev/';
-// =========================================================
 
 var userId = '', userName = '', selSlot = '', step = 1;
 
 async function initLiff() {
   try {
     await liff.init({ liffId: LIFF_ID });
-    if (!liff.isLoggedIn()) {
-      liff.login();
-      return;
-    }
-    var p  = await liff.getProfile();
-    userId = p.userId;
+    if (!liff.isLoggedIn()) { liff.login(); return; }
+    var p    = await liff.getProfile();
+    userId   = p.userId;
     userName = p.displayName;
-
-    // Debug — ลบทิ้งได้หลังแก้สำเร็จ
     console.log('✅ LIFF OK, userId:', userId);
-
   } catch(e) {
     console.error('❌ LIFF Error:', e);
-    // แสดง error ให้เห็นบนหน้าจอ
     document.body.insertAdjacentHTML('afterbegin',
       '<div style="background:red;color:white;padding:10px;font-size:13px;">LIFF Error: ' + e.toString() + '</div>'
     );
