@@ -532,12 +532,14 @@ function submit() {
       notes:         nt
     })
   })
-  .then(function(r) { return r.json(); })
-  .then(function(d) {
-    document.getElementById('loadSec').style.display = 'none';
-    document.getElementById('okSec').style.display   = 'block';
-    document.getElementById('okId').textContent      = d.bookingId || genId();
-  })
+  .then(function(r) { return r.text(); })
+  .then(function(text) {
+  var d = {};
+  try { d = JSON.parse(text); } catch(e) {}
+  document.getElementById('loadSec').style.display = 'none';
+  document.getElementById('okSec').style.display   = 'block';
+  document.getElementById('okId').textContent      = d.bookingId || genId();
+})
   .catch(function(e) {
     console.error(e);
     document.getElementById('loadSec').style.display  = 'none';
